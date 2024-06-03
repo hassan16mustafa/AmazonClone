@@ -38,7 +38,8 @@ products.forEach((product) => {
                 Added
             </div>
             <button class="add-to-cart-button button-primary js-add-to-cart"
-            data-product-id="${product.id}">
+            data-product-id="${product.id}"
+            data-product-name="${product.name}">
                 Add to Cart
             </button>
         </div>
@@ -50,24 +51,33 @@ document.querySelector('.js-grid').innerHTML = productsHtml;
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
-       const productid = button.dataset.id;
+        const productId = button.dataset.productId;
+        const productName = button.dataset.productName;
 
-       let matchingItem;
+        let matchingItem;
 
-       // Assuming cart is an array of objects with productName and quantity properties
-       cart.forEach((item) => {
-           if (productid === item.productid) {
-               matchingItem = item;
-           }
-       });
+        // Assuming cart is an array of objects with productName and quantity properties
+        cart.forEach((item) => {
+            if (productId === item.productId) {
+                matchingItem = item;
+            }
+        });
 
-       if (matchingItem) {
-           matchingItem.quantity += 1;
-       } else {
-           cart.push({
-               productName: productName,
-               quantity: 1
-           });
-       }
+        if (matchingItem) {
+            matchingItem.quantity += 1;
+        } else {
+            cart.push({
+                productId: productId,
+                productName: productName,
+                quantity: 1
+            });
+        }
+
+        let count = 0;
+        cart.forEach((item) => {
+            count += item.quantity;
+        });
+
+        document.querySelector('.js-cart-quantity').innerHTML = count;
     });
 });
