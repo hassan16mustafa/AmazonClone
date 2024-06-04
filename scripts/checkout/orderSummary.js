@@ -166,3 +166,19 @@ function deliveryOptionsHTML(matchingProduct, item) {
   console.log("Generated Delivery Options HTML:", html);
   return html;
 }
+
+
+/*
+describe {formatCurremcy} from 
+
+describe {'test suite : ahahhaha}, () => {
+    it('censt to dollars' () => {
+        expect(formatCurrency(2095).toEqual(20.95));
+    });
+}
+
+
+
+
+
+*/
