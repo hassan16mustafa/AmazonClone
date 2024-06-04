@@ -1,3 +1,34 @@
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+
+  constructor(dets){
+    this.id = dets.id;
+    this.image = dets.image;
+    this.name = dets.name;
+    this.rating = dets.rating;
+    this.priceCents = dets.priceCents;
+  }
+
+
+
+  getStarsUrl(){
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+
+  getPrice(){
+    return `$${(this.priceCents / 100).toFixed(2)}`;
+  }
+
+
+}
+
+
 export function getProduct(productId){
   let matchingProduct = products.find(product => product.id === productId);
   return matchingProduct;
@@ -663,4 +694,7 @@ export const products = [
       "mens"
     ]
   }
-];
+].map( (productDetails) => {
+  return new Product(productDetails);
+
+});

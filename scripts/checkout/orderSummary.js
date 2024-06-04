@@ -60,7 +60,7 @@ export function renderOrderSummary() {
               ${matchingProduct.name}
             </div>
             <div class="product-price">
-              $${(matchingProduct.priceCents / 100).toFixed(2)}
+              ${matchingProduct.getPrice()}
             </div>
             <div class="product-quantity">
               <span>
