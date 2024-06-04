@@ -1,31 +1,18 @@
 import { renderOrderSummary } from './checkout/orderSummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
-
 import { loadCart } from '../data/cart.js';
-
-// import '../data/cart-oop.js';
-
-// import '../data/backend-practise.js';
-
-import { loadProducts } from '../data/products.js';
-
-
+import { loadProductsFetch } from '../data/products.js';
 
 Promise.all([
-  new Promise((resolve) => {
-    loadProducts(() => {
-      resolve();
-    });
-  }),
-  new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    });
-  })
+  loadProductsFetch(),
+  loadCart()
 ]).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
+}).catch((error) => {
+  console.error('Error loading initial data:', error);
 });
+
 
 
 // new Promise((resolve) => {

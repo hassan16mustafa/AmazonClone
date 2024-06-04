@@ -37,6 +37,34 @@ export function getProduct(productId) {
   return products.find(product => product.id === productId);
 }
 
+export function loadProductsFetch() {
+  return fetch('https://supersimplebackend.dev/products')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      products = data.map((productDetails) => {
+        if (productDetails.type === 'clothing') {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+    })
+    .catch((error) => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+// Usage example
+loadProductsFetch().then(() => {
+  console.log('Products loaded successfully');
+});
+
+
+
 export function loadProducts(callback) {
   const xhr = new XMLHttpRequest();
 
