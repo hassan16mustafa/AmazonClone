@@ -13,7 +13,7 @@ products.forEach((product) => {
         ${product.name}
       </div>
       <div class="product-rating-container">
-        <img class="product-rating-stars" src="${product.getStarsUrl}" alt="Rating ${product.rating.stars} stars">
+        <img class="product-rating-stars" src="${product.getStarsUrl()}" alt="Rating ${product.rating.stars} stars">
         <div class="product-rating-count link-primary">
           ${product.rating.count}
         </div>
@@ -22,7 +22,7 @@ products.forEach((product) => {
         ${product.getPrice()}
       </div>
       <div class="product-quantity-container">
-        <select>
+        <select class="product-quantity">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -35,6 +35,7 @@ products.forEach((product) => {
           <option value="10">10</option>
         </select>
       </div>
+      ${product.extraInfoHTML()}
       <div class="product-spacer"></div>
       <div class="added-to-cart">
         <img src="images/icons/checkmark.png" alt="Added to cart">
@@ -58,14 +59,17 @@ function updateCart() {
   document.querySelector('.js-cart-quantity').innerHTML = count;
 }
 
-document.querySelector('.js-grid').innerHTML = productsHtml;
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.js-grid').innerHTML = productsHtml;
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
-    addToCart(productId);
-    updateCart();
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const productId = button.dataset.productId;
+      const quantity = button.parentElement.querySelector('.product-quantity').value;
+      addToCart(productId, parseInt(quantity));
+      updateCart();
+    });
   });
-});
 
-updateCart();  // Initial update to show the correct cart quantity on page load
+  updateCart(); // Initial update to show the correct cart quantity on page load
+});
