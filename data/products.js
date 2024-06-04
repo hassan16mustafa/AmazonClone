@@ -61,3 +61,4 @@ export function loadProducts(callback) {
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
+
