@@ -46,9 +46,8 @@ function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function updateDeliveryOption(productId, deliveryOptionId){
-
-    let matchingItem;
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem;
 
   cart.forEach((item) => {
     if (productId === item.productId) {
@@ -56,26 +55,37 @@ export function updateDeliveryOption(productId, deliveryOptionId){
     }
   });
 
-  matchingItem.deliveryOptionId = deliveryOptionId;
-  saveToStorage();
-
+  if (matchingItem) {
+    matchingItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+  }
 }
 
-
-export function loadCart(callback) {
+export function loadCart() {
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-  
+
     xhr.addEventListener('load', () => {
-      console.log(xhr.response);
-        callback();
+      console.log('Response from server:', xhr.responseText); // Debugging line
+
+      try {
+        const parsedResponse = JSON.parse(xhr.responseText);
+        cart = parsedResponse;
+        saveToStorage();
+        resolve();
+      } catch (error) {
+        // Handle unexpected response format
+        console.error(`Unexpected response format: ${xhr.responseText}`);
+        // Fallback to default cart if response is invalid
+        resolve();
+      }
     });
-  
+
     xhr.addEventListener('error', () => {
-      console.error("Error loading product data.");
+      reject(new Error('Error loading cart data.'));
     });
-  
+
     xhr.open('GET', 'https://supersimplebackend.dev/cart');
     xhr.send();
-  }
-  
-  
+  });
+}

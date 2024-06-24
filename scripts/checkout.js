@@ -13,21 +13,25 @@ Promise.all([
   console.error('Error loading initial data:', error);
 });
 
+// If you need to use an async function and handle the results of loadProductsFetch and loadCart, do it like this:
 
+async function loadPage() {
+  console.log('load page');
 
-// new Promise((resolve) => {
+  try {
+    await loadProductsFetch();
+    await loadCart();
 
-//   loadProducts(() => {
-//     resolve();
-//   });
+    console.log('next');
+    renderOrderSummary();
+    renderPaymentSummary();
+  } catch (error) {
+    console.error('Error loading page:', error);
+  }
+}
 
-// }).then(() => {
-//   return new Promise((resolve) => {
-//     loadCart(() => {
-//       resolve();
-//     });
-//   });
-// }).then(()=> {
-//   renderOrderSummary();
-//   renderPaymentSummary();
-// });
+loadPage().then(() => {
+  console.log('Page loaded successfully');
+}).catch((error) => {
+  console.error('Error loading page:', error);
+});

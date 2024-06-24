@@ -82,6 +82,8 @@ export function loadProducts(callback) {
     }
   });
 
+
+
   xhr.addEventListener('error', () => {
     console.error("Error loading product data.");
   });
@@ -89,4 +91,5 @@ export function loadProducts(callback) {
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
+
 
